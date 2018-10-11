@@ -45,7 +45,7 @@
 *.VC.opendb
 
 # Starter Content
-BattleTank/Content/StarterContent/
+Content/StarterContent/
 
 # Precompiled Assets
 SourceArt/**/*.png
