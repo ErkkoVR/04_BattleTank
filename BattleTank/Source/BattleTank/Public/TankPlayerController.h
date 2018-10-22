@@ -26,4 +26,6 @@ private:
 
 	// Start the tank to aimtowards what we are pointing to 
 	void AimTowardsCrossHair();
+
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const; 
 };
