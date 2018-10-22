@@ -19,5 +19,11 @@ public:
 	ATank* GetControllerTank() const;
 
 	void BeginPlay() override;
-	
+
+	void Tick(float DeltaTime) override;
+
+private:
+
+	// Start the tank to aimtowards what we are pointing to 
+	void AimTowardsCrossHair();
 };
