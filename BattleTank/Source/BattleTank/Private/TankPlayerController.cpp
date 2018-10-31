@@ -46,7 +46,7 @@ void ATankPlayerController::AimTowardsCrossHair()
 	
 	if (GetSightRayHitLocation(HitLocation))	// Has side effect of actually line-tracing 
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString())
+		// UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *HitLocation.ToString())
 		// TODO tank to actually aim at this position
 
 	}
@@ -61,8 +61,35 @@ void ATankPlayerController::AimTowardsCrossHair()
 // Get World location of linetrace through crosshair, true if hits landscape
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
-	OutHitLocation = FVector(1.0);
+	// OutHitLocation = FVector(1.0);
 	// trace from starting location until hit with the unreal object thingy
 	// return what was hit as part of the hitlocation fvector
+
+	// Find the crosshair position
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+	// UE_LOG(LogTemp, Warning, TEXT("the screenlocation is: %s"), *ScreenLocation.ToString())
+
+	// de-project the screen position of crosshair to a world direction
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Look Direction is: %s"), *LookDirection.ToString())
+
+	}
+	
+
+	// line-trace along that look direction, see what we hit
+
 	return true;
+}
+
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
+{
+	FVector WorldLocation;
+	// FVector WorldDirection;
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, LookDirection); 
+
 }
