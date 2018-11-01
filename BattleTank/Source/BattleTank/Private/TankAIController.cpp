@@ -22,6 +22,19 @@ void ATankAIController::BeginPlay()
 
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetPlayerTank())
+	{
+
+		GetControllerTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		// AimAtPlayer();
+
+	}	// UE_LOG(LogTemp, Warning, TEXT("Player Controller ticking every s"));
+}
+
+
 ATank* ATankAIController::GetControllerTank() const
 {
 
@@ -46,6 +59,15 @@ ATank * ATankAIController::GetPlayerTank() const
 	}
 
 }
+
+void ATankAIController::AimAtPlayer() const
+{
+	auto PlayerTank = GetPlayerTank();
+	auto OurTank = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at player in location: %s "),*OurTank , *PlayerTank->GetActorLocation().ToString())
+
+}
+
 
 
 
