@@ -28,14 +28,18 @@ private:
 	float CrossHairXLocation = 0.5;
 	
 	UPROPERTY(EditAnywhere)
-	float CrossHairYLocation = 0.3333;
+	float CrossHairYLocation = 0.215;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 100000000;
 
 	// Start the tank to aimtowards what we are pointing to 
 	void AimTowardsCrossHair();
 
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection, FVector& StartLocation) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector StartLocation, FVector& HitLocation) const;	
 
-	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 	
 
 
