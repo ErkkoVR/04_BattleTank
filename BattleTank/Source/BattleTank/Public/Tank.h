@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "TankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
 class UTankBarrel;
+class UTankAimingComponent;
 
 
 UCLASS()
@@ -35,8 +35,7 @@ protected:
 	float LaunchSpeed = 100000; // TODO find a sensinble value for launching
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
