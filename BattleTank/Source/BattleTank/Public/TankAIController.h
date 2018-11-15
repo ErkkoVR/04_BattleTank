@@ -27,11 +27,7 @@ public:
 
 private: 
 
-	ATank* GetControllerTank() const;
-
-	ATank* GetPlayerTank() const; 
-
-	void AimAtPlayer() const;
+	// void AimAtPlayer() const;
 	
 	
 };
