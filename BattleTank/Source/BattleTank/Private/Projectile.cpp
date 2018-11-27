@@ -31,10 +31,12 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float Speed) const
 {
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f: projectile launch called at speed %f"), Time, Speed)
-
-	ProjectileMovevement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
-	ProjectileMovevement->Activate();
+	// auto Time = GetWorld()->GetTimeSeconds();
+	// UE_LOG(LogTemp, Warning, TEXT("%f: projectile launch called at speed %f"), Time, Speed)
+	
+	
+		ProjectileMovevement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+		ProjectileMovevement->Activate();
+	
 }
 
