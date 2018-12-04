@@ -21,6 +21,11 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank)
 	{
 
+		MoveToActor(PlayerTank, AcceptanceRadius);
+
+		// UE_LOG(LogTemp, Warning, TEXT("%s AI Controlled Tank has called with %s"), *ControlledTank->GetName(), AcceptanceRadius)
+
+
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
 		ControlledTank->Fire(); // TODO don't fire all the time
