@@ -16,7 +16,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// No need to add protection as as added at construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 	// TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
@@ -29,12 +29,6 @@ void ATank::BeginPlay()
 }
 
 
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
 
 void ATank::AimAt(FVector HitLocation)
 {
@@ -47,20 +41,7 @@ void ATank::AimAt(FVector HitLocation)
 
 }
 
-void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
 
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-
-}
-
-void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-
-	TankAimingComponent->SetTurretReference(TurretToSet);
-
-}
 
 // function for firing the projectile when input pressed
 void ATank::Fire()
