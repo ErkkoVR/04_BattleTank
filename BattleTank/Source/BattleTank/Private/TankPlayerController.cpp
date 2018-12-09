@@ -13,7 +13,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetControllerTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -53,7 +53,7 @@ ATank* ATankPlayerController::GetControllerTank() const
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!GetControllerTank()) { return;  }
+	if (!ensure(GetControllerTank())) { return;  }
 
 	FVector HitLocation; // Out parameter
 	
