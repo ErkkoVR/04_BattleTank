@@ -7,7 +7,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
-class UTankAimingComponent;
+// class UTankAimingComponent;
 class UTankTurret;
 class AProjectile;
 // class UTankMovementComponent; Removed this as we are not really using it as part of tank.cpp
@@ -23,7 +23,7 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	void AimAt(FVector HitLocation);
+	// void AimAt(FVector HitLocation);
 
 	
 	// called for tank to fire
@@ -34,8 +34,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Movement)
-	UTankAimingComponent* TankAimingComponent = nullptr;
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Movement)
+	// UTankAimingComponent* TankAimingComponent = nullptr;
 
 	// Remove once we have moved also fire function
 	UPROPERTY(EditDefaultsOnly, Category = Firing)

@@ -2,7 +2,7 @@
 
 #include "TankAIController.h"
 #include "Engine/World.h"
-#include "Tank.h"
+#include "TankAimingComponent.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -15,24 +15,26 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	auto ControlledTank = Cast<ATank>(GetPawn());
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto ControlledTank = GetPawn();
 
-	if (ensure(PlayerTank))
-	{
+	if (!ensure(PlayerTank && ControlledTank)) { return; }
+	
 
-		MoveToActor(PlayerTank, AcceptanceRadius);
+	MoveToActor(PlayerTank, AcceptanceRadius);
 
 		// UE_LOG(LogTemp, Warning, TEXT("%s AI Controlled Tank has called with %s"), *ControlledTank->GetName(), AcceptanceRadius)
 
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		// ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
-		ControlledTank->Fire(); // TODO don't fire all the time
+	// ControlledTank->Fire(); // TODO don't fire all the time
 
 		// AimAtPlayer();
 
-	}	// UE_LOG(LogTemp, Warning, TEXT("Player Controller ticking every s"));
+	// UE_LOG(LogTemp, Warning, TEXT("Player Controller ticking every s"));
 }
 
 

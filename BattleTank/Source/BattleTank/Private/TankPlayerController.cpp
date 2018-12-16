@@ -5,14 +5,14 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
+// #include "Tank.h"
 
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetControllerTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
@@ -23,14 +23,14 @@ void ATankPlayerController::BeginPlay()
 
 	}
 
-	auto ControlledTank = GetControllerTank(); 
+	auto ControlledTank = GetPawn(); 
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Could not find controlled tank"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController possessing %s"), *(ControlledTank->GetName()) );
+		// UE_LOG(LogTemp, Warning, TEXT("PlayerController possessing %s"), *(ControlledTank->GetName()) );
 
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player Controller beging play"));
@@ -45,23 +45,20 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 
 
-ATank* ATankPlayerController::GetControllerTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!ensure(GetControllerTank())) { return;  }
+
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // Out parameter
 	
 	if (GetSightRayHitLocation(HitLocation))	// Has side effect of actually line-tracing 
 	{
-	  // UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString())
-		// TODO tank to actually aim at this position
-		GetControllerTank()->AimAt(HitLocation);
+		
+		AimingComponent->AimAt(HitLocation);
+
+		// GetControllerTank()->AimAt(HitLocation);
 	}
 
 
@@ -111,7 +108,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	//GetWorld()->DebugDrawTraceTag = Tag;
 	//FCollisionQueryParams Params(Tag);
 	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(GetControllerTank());
+	CollisionParams.AddIgnoredActor(GetPawn());
 	if (GetWorld()->LineTraceSingleByChannel(
 		HitResult,
 		StartLocation,

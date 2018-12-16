@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
+// #include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
@@ -16,7 +16,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ construct"), *TankName)
+	// UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ construct"), *TankName)
 
 	// No need to add protection as as added at construction
 	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
@@ -30,25 +30,14 @@ void ATank::BeginPlay()
 	Super::BeginPlay(); 
 
 	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ BeginPlay"), *TankName)
+	// UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ BeginPlay"), *TankName)
 
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	// TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 	
 }
 
 
 
-void ATank::AimAt(FVector HitLocation)
-{
-	
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-
-	//	auto OurTankName = GetName();
-	// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *HitLocation.ToString())
-
-
-}
 
 
 
