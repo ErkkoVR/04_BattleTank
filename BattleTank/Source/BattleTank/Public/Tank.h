@@ -10,7 +10,7 @@ class UTankBarrel;
 class UTankAimingComponent;
 class UTankTurret;
 class AProjectile;
-class UTankMovementComponent;
+// class UTankMovementComponent; Removed this as we are not really using it as part of tank.cpp
 
 
 
@@ -36,9 +36,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Movement)
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Movement)
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000; // sensible default
