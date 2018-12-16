@@ -37,6 +37,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Movement)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
+	// Remove once we have moved also fire function
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000; // sensible default
 
