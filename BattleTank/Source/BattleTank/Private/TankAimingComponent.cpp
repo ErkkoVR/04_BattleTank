@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -32,7 +33,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 	// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from barrel at location: %s"), *OurTankName, *HitLocation.ToString(), *BarrelLocation)
 
-	if (!ensure(Barrel)) { return; }
+	if (!ensure(Barrel && ProjectileBluePrint)) { return; }
 
 
 	FVector OutLaunchVelocity;
@@ -88,9 +89,25 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 		// for barrel move according to aim x
 
 
+}
 
+// function for firing the projectile when input pressed
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel)) { return; }
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
+	if (isReloaded)
+	{
 
+		// spawn a projectile at the socket location on the barrel
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 
+		if (Projectile)
+		{
+			Projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = FPlatformTime::Seconds();
+		}
+	}
 
 }

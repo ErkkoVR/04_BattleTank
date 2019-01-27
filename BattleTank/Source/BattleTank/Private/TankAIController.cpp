@@ -30,7 +30,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 		// ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
-	// ControlledTank->Fire(); // TODO don't fire all the time
+	AimingComponent->Fire(); // TODO don't fire all the time
 
 		// AimAtPlayer();
 

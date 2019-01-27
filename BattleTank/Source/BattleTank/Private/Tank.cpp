@@ -3,8 +3,8 @@
 #include "Tank.h"
 // #include "TankAimingComponent.h"
 #include "Engine/World.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
+//#include "TankBarrel.h"
+//#include "Projectile.h"
 // #include "TankMovementComponent.h" Commented out as we are not using it in tank really. 
 
 
@@ -24,40 +24,8 @@ ATank::ATank()
 }
 
 
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay(); 
-
-	auto TankName = GetName();
-	// UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ BeginPlay"), *TankName)
-
-	// TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-	
-}
 
 
 
 
-
-
-// function for firing the projectile when input pressed
-void ATank::Fire()
-{
-	if (!ensure(Barrel)) { return; }
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (isReloaded) {
-
-		// spawn a projectile at the socket location on the barrel
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-
-		if (Projectile)
-		{
-			Projectile->LaunchProjectile(LaunchSpeed);
-			LastFireTime = FPlatformTime::Seconds();
-		}
-		}
-		
-}
 

@@ -19,6 +19,7 @@ enum class EFiringState : uint8
 // Forward Declaration
 class UTankBarrel; 
 class UTankTurret;
+class AProjectile;
 
 // Holds barrels properties and elevation method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -27,9 +28,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
-
+	
 	// Init the tank aiming component for turret and barrel. Handles logic of aiming and states
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
@@ -39,24 +38,36 @@ public:
 	// TODO Add SetTurretReference	
 
 	// Setting the barrel that will be set from the Owner Tank
-	
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
+
 
 protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Reloading;
+	EFiringState FiringState = EFiringState::Aiming;
 
 
-private:	
-	
-	UTankBarrel* Barrel = nullptr;
+private:
 
-	UTankTurret* Turret = nullptr;
+	// Sets default values for this component's properties
+	UTankAimingComponent();
 
 	void MoveBarrelTowards(FVector AimDirection);
+	
+	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000; // sensible default
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+
+	double LastFireTime = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBluePrint;
 
 	
 };
