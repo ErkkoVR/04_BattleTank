@@ -7,7 +7,7 @@
 // #include "Tank.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
+// class ATank; // TODO remove this dependency
 class UTankAimingComponent;
 
 /**
