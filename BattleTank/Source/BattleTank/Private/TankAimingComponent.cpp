@@ -13,9 +13,31 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false; // Should this really tick? 
+	RegisterComponent();
+	bWantsBeginPlay = true;
+	PrimaryComponentTick.bCanEverTick = true; // Should this really tick? 
+	PrimaryComponentTick.bStartWithTickEnabled = true;
+
 
 	// ...
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	// so that first fire is after initial reload
+	LastFireTime = FPlatformTime::Seconds();
+
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Aiming comp ticking"));
+	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+
 }
 
 
@@ -94,12 +116,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 // function for firing the projectile when input pressed
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel)) { return; }
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	
 
-	if (isReloaded)
+	if (FiringState != EFiringState::Reloading)
 	{
 
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBluePrint)) { return; }
 		// spawn a projectile at the socket location on the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 
