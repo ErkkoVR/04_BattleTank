@@ -2,6 +2,22 @@
 
 #include "TankTrack.h"
 
+
+UTankTrack::UTankTrack()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+}
+
+
+void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+
+	// Super::TickComponent();
+	UE_LOG(LogTemp, Warning, TEXT("Track ticking"));
+
+}
+
+
 void UTankTrack::SetThrottle(float Throttle)
 {
 	// auto Time = GetWorld()->GetTimeSeconds();
