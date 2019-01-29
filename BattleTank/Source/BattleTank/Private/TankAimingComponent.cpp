@@ -13,8 +13,8 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	RegisterComponent();
-	bWantsBeginPlay = true;
+	// RegisterComponent();
+	// bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true; // Should this really tick? 
 	PrimaryComponentTick.bStartWithTickEnabled = true;
 
@@ -33,9 +33,18 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Aiming comp ticking"));
-	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMoving())
+	{ 
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+
 	}
 
 }
@@ -84,7 +93,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 	}
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 		// UE_LOG(LogTemp, Warning, TEXT("tank %s Aiming at: %s"), *TankName, *AimDirection.ToString())
 		MoveBarrelTowards(AimDirection);
@@ -113,6 +122,18 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	// get the forward vector
+	// get the aimdirection
+	// call the comparison
+	if (!ensure(Barrel)) { return false; }
+
+	auto BarrelRotator = Barrel->GetForwardVector();
+	auto Tolerance = 0.01;
+	return !(AimDirection.Equals(BarrelRotator, Tolerance));
+}
+
 // function for firing the projectile when input pressed
 void UTankAimingComponent::Fire()
 {
@@ -132,5 +153,6 @@ void UTankAimingComponent::Fire()
 			LastFireTime = FPlatformTime::Seconds();
 		}
 	}
+
 
 }
