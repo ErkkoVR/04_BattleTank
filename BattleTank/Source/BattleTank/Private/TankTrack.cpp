@@ -13,8 +13,15 @@ void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 {
 
 	// Super::TickComponent();
-	UE_LOG(LogTemp, Warning, TEXT("Track ticking"));
-
+	// UE_LOG(LogTemp, Warning, TEXT("Track ticking"));
+	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
+	// calculate slippage speed
+	// work out the required accleration to correct in frame
+	auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
+ 	// calculate and apply side ways force (F = ma)
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto CorrectionForce = TankRoot->GetMass() * CorrectionAcceleration / 2;
+	TankRoot->AddForce(CorrectionAcceleration);
 }
 
 

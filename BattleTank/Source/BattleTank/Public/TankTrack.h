@@ -16,7 +16,6 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 	
 public:
 
-	UTankTrack();
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetThrottle(float Throttle);
@@ -27,6 +26,8 @@ public:
 	// guessed based on 40k kg weight and 1g acceleration
 
 private:
+
+	UTankTrack();
 	
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 };
